@@ -5,7 +5,7 @@ Versão REM: 1.1
 Categoria REM: Acesso Remoto
 Destino REM: sistema operacional Windows
 
-REM NOTE: Replace IP address(172.19.42.156) and port number(443) with your server's IP address and Port Number.
+REM NOTE: Replace IP address(172.18.44.666) and port number(443) with your server's IP address and Port Number.
 
 DELAY 2000
 REM Define your language below
